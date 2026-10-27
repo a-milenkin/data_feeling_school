@@ -199,6 +199,13 @@ details p{color:var(--muted);padding-bottom:6px}
 .cta .btn.primary{background:#fff;color:var(--accent)}
 .cta .btn.primary:hover{background:var(--ink);color:#fff}
 
+.cta-neo{flex-wrap:nowrap;align-items:flex-end;padding:40px 48px 0;overflow:hidden;background:linear-gradient(135deg,#14121f 0%,#2a1d6e 100%)}
+.cta-neo-photo{width:240px;flex:none;align-self:flex-end;mix-blend-mode:normal;border-radius:24px 24px 0 0;background:#fff}
+.cta-neo-text{padding-bottom:40px}
+.cta-neo p{color:#d6d2ea;max-width:560px}
+.cta .btn.pill-red{background:#e53935;color:#fff}.cta .btn.pill-red:hover{background:#c62828;color:#fff}
+.cta .btn.pill-blue{background:#1e63e9;color:#fff}.cta .btn.pill-blue:hover{background:#174fbd;color:#fff}
+
 /* блог */
 .post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .post-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;text-decoration:none;transition:.2s;min-height:240px}
@@ -260,6 +267,9 @@ details p{color:var(--muted);padding-bottom:6px}
   .hero-photo{max-width:520px}
 }
 @media (max-width:720px){
+  .cta-neo{flex-direction:column-reverse;align-items:stretch;padding:28px 22px 0}
+  .cta-neo-photo{width:200px;align-self:center}
+  .cta-neo-text{padding-bottom:0}
   .ph-stats{grid-template-columns:1fr}
   h1{font-size:30px}
   .featured-card{grid-template-columns:1fr;padding:28px 22px;gap:24px}
