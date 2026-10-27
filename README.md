@@ -26,6 +26,7 @@ description: Одно предложение для превью и поиско
 date: 2026-11-01
 course: pet-project     # pet-project | n8n | none
 draft: true             # необязательно: скрыть статью
+source: https://t.me/datafeeling/1994   # необязательно: пост-оригинал (несколько — через запятую)
 ---
 Текст в Markdown (## заголовки, списки, > цитаты, ![](/assets/img/x.jpg), [ссылки](...))
 ```

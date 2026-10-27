@@ -164,6 +164,8 @@ details p{color:var(--muted);padding-bottom:6px}
 .prose pre code{background:none;color:inherit}
 .prose hr{border:0;border-top:1px solid var(--line);margin:2em 0}
 .prose img{border-radius:16px;margin:1.4em 0;max-height:520px;width:auto;max-width:100%}
+.source{margin:36px 0 0;padding:16px 20px;border:1px solid var(--line);border-radius:16px;font-size:15px;color:var(--muted)}
+.source a{color:var(--accent-d);font-weight:600}
 .course-box{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;background:var(--accent-soft);border-radius:var(--r);padding:28px;margin:44px 0 0}
 .course-box h3{margin:6px 0 4px}.course-box p{margin:0;color:var(--muted);font-size:15px}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}

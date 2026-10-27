@@ -115,6 +115,20 @@ def fmt_date(d):
     return f"{dt.day} {months[dt.month - 1]} {dt.year}"
 
 
+def source_links(p):
+    """Ссылки на посты-оригиналы в Telegram (поле source: url1, url2)."""
+    urls = [u.strip() for u in p.get("source", "").split(",") if u.strip()]
+    if not urls:
+        return ""
+    channel = "@" + urls[0].rstrip("/").split("/")[-2]
+    if len(urls) == 1:
+        links = f'<a href="{urls[0]}" rel="noopener">читать пост в {channel}</a>'
+    else:
+        links = ", ".join(f'<a href="{u}" rel="noopener">часть {i}</a>' for i, u in enumerate(urls, 1))
+        links = f"оригинал в {channel}: " + links
+    return f'<p class="source">✈️ Впервые опубликовано в Telegram — {links}</p>'
+
+
 # ---------- сборка ----------
 def load_posts():
     posts = []
@@ -221,7 +235,7 @@ def build():
             f'<article class="article"><a class="small muted" href="/blog/">← Все статьи</a>'
             f'<h1>{html.escape(p["title"])}</h1>'
             f'<div class="byline"><span>Алерон Миленькин</span><span>·</span><span>{fmt_date(p["date"])}</span></div>'
-            f'<div class="prose">{markdown(p["body"])}</div>{box}</article>{more}'
+            f'<div class="prose">{markdown(p["body"])}</div>{source_links(p)}{box}</article>{more}'
         )
         meta = {"title": p["title"] + " — Data Feeling School", "description": p["description"], "og_type": "article"}
         write(f"/blog/{p['slug']}/", page(meta, body, f"/blog/{p['slug']}/"))
