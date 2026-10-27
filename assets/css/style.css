@@ -177,6 +177,14 @@ details p{color:var(--muted);padding-bottom:6px}
 .post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .post-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;text-decoration:none;transition:.2s;min-height:240px}
 .post-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,18,31,.1)}
+.pc-cover{display:block;width:calc(100% + 52px);margin:-26px -26px 18px;height:180px;object-fit:cover;object-position:50% 20%;border-radius:var(--r) var(--r) 0 0;background:var(--soft)}
+.pc-cover.ph{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:22px 26px;position:relative;overflow:hidden}
+.pc-cover.ph.lav{background:linear-gradient(135deg,var(--accent-soft),#d9cfff)}.pc-cover.ph.mint{background:linear-gradient(135deg,var(--mint),#b8ecd2)}
+.pc-cover.ph.peach{background:linear-gradient(135deg,var(--peach),#ffc9ad)}.pc-cover.ph.sky{background:linear-gradient(135deg,var(--sky),#b9dbff)}
+.pc-cover.ph.lemon{background:linear-gradient(135deg,var(--lemon),#ffe48a)}.pc-cover.ph.rose{background:linear-gradient(135deg,var(--rose),#ffbfd2)}
+.pc-emoji{font-size:56px;line-height:1}
+.pc-label{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(20,18,31,.55)}
+.post-card{overflow:hidden}
 .post-card h3{font-size:20px;margin:12px 0 8px}
 .post-card p{color:var(--muted);font-size:15px;margin:0 0 16px}
 .post-card .foot{margin-top:auto;font-size:13px;color:var(--muted)}

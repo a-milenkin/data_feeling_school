@@ -19,6 +19,7 @@ from pathlib import Path
 
 from courses import (catalog, course_cards, course_jsonld, footer_links, load_courses,
                      render_course_page)
+from tracking import track
 
 ROOT = Path(__file__).parent
 SRC, DIST = ROOT / "src", ROOT / "dist"
@@ -132,6 +133,9 @@ def load_posts():
         meta["slug"] = f.stem
         meta["body"] = body
         meta.setdefault("course", "none")
+        # обложка: поле cover или первая картинка из текста статьи
+        first = re.search(r"!\[[^\]]*\]\(([^)]+)\)", body)
+        meta.setdefault("cover", first.group(1) if first else "")
         posts.append(meta)
     posts.sort(key=lambda p: p["date"], reverse=True)
     return posts
@@ -141,8 +145,16 @@ def post_card(p):
     course = p["course"]
     label = COURSES.get(course, {}).get("label", "Заметки")
     mins = max(1, round(len(p["body"].split()) / 180))
+    c = COURSES.get(course, {})
+    if p["cover"]:
+        cover = f'<img class="pc-cover" src="{p["cover"]}" alt="" loading="lazy">'
+    else:
+        palette = ["lav", "mint", "peach", "sky", "lemon", "rose"]
+        color = palette[sum(map(ord, p["slug"])) % len(palette)]
+        cover = (f'<div class="pc-cover ph {color}"><span class="pc-emoji">{c.get("emoji", "✍️")}</span>'
+                 f'<span class="pc-label">{html.escape(label)}</span></div>')
     return (
-        f'<a class="post-card reveal" data-course="{course}" href="/blog/{p["slug"]}/">'
+        f'<a class="post-card reveal" data-course="{course}" href="/blog/{p["slug"]}/">{cover}'
         f'<span class="pill {course}">{label}</span><h3>{html.escape(p["title"])}</h3>'
         f'<p>{html.escape(p["description"])}</p>'
         f'<span class="foot">{fmt_date(p["date"])} · {mins} мин чтения</span></a>'
@@ -153,6 +165,10 @@ def fill(tpl, ctx):
     for k, v in ctx.items():
         tpl = tpl.replace("{{" + k + "}}", v)
     return tpl
+
+
+def meta_slug(path):
+    return path.strip("/").split("/")[0]
 
 
 def write(path, content):
@@ -193,14 +209,19 @@ def build():
             "head_extra": meta.get("head_extra", ""),
             "header": header, "footer": footer, "content": render_related(body),
         }
-        return fill(layout, ctx)
+        return track(fill(layout, ctx), path, meta.get("tg_context") or course_question(path))
+
+    def course_question(path):
+        """Стартовое сообщение в личку со страницы курса."""
+        c = COURSES.get(meta_slug(path))
+        return f'У меня вопрос по курсу «{c["card_title"]}».' if c else None
 
     # страницы
     for f in sorted((SRC / "pages").glob("*.html")):
         meta, body = parse(f.read_text(encoding="utf-8"))
         path = meta.get("path") or ("/" if f.stem == "index" else f"/{f.stem}/")
         if meta.get("layout") == "none":
-            write(path, body)
+            write(path, track(body, path, meta.get("tg_context")))
         elif f.stem == "404":
             (DIST / "404.html").write_text(page(meta, body, "/404.html"), encoding="utf-8")
             continue
@@ -247,7 +268,10 @@ def build():
             f'<div class="byline"><span>Алерон Миленькин</span><span>·</span><span>{fmt_date(p["date"])}</span></div>'
             f'<div class="prose">{markdown(p["body"])}</div>{source_links(p)}{box}</article>{more}'
         )
-        meta = {"title": p["title"] + " — Data Feeling School", "description": p["description"], "og_type": "article"}
+        meta = {"title": p["title"] + " — Data Feeling School", "description": p["description"], "og_type": "article",
+                "tg_context": f'Прочитал статью «{p["title"]}».'}
+        if p["cover"].startswith("/"):
+            meta["image"] = SITE + p["cover"]
         write(f"/blog/{p['slug']}/", page(meta, body, f"/blog/{p['slug']}/"))
         urls.append((f"/blog/{p['slug']}/", p["date"]))
 
