@@ -10,6 +10,7 @@
 Статика:   src/static/        (копируется в dist/ как есть)
 Ассеты:    assets/            (css, js, картинки)
 """
+import hashlib
 import html
 import re
 import shutil
@@ -182,6 +183,9 @@ def build():
         shutil.rmtree(DIST)
     DIST.mkdir()
     layout = (SRC / "layout.html").read_text(encoding="utf-8")
+    # версия css/js меняется при правках — браузеры не держат старые стили из кэша
+    version = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ("assets/css/style.css", "assets/js/main.js"))).hexdigest()[:8]
+    layout = layout.replace("{{asset_version}}", version)
     header = (SRC / "partials/header.html").read_text(encoding="utf-8")
     footer = fill((SRC / "partials/footer.html").read_text(encoding="utf-8"),
                   {"year": str(date.today().year), "footer_courses": footer_links(COURSES)})
