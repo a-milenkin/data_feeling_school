@@ -96,6 +96,18 @@ p{margin:0 0 1em}
 .cc-cover{width:64px;height:64px;border-radius:16px;object-fit:cover;background:#fff}
 .cc-badge{background:rgba(255,255,255,.75);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;text-align:right}
 .course-card h3{font-size:22px}
+.featured-card{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;text-decoration:none;color:#fff;
+  background:linear-gradient(135deg,#2a1d6e 0%,var(--accent) 55%,#ff7a59 120%);padding:44px;border-radius:32px;transition:.2s;box-shadow:0 24px 60px rgba(109,74,255,.28)}
+.featured-card:hover{transform:translateY(-4px);box-shadow:0 30px 70px rgba(109,74,255,.38)}
+.fc-badge{display:inline-block;background:#fff;color:var(--ink);border-radius:999px;padding:7px 16px;font-size:14px;font-weight:800;margin-bottom:18px}
+.featured-card h3{font-size:clamp(28px,3.6vw,42px);line-height:1.1;margin-bottom:14px}
+.featured-card p{color:#ece7ff;font-size:18px;max-width:640px}
+.fc-points{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.fc-points li{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:700}
+.fc-side{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.fc-cover{width:160px;height:160px;border-radius:28px;object-fit:cover;box-shadow:0 18px 40px rgba(0,0,0,.3);transform:rotate(-4deg)}
+.fc-price{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.featured-card .btn.primary{background:#fff;color:var(--accent-d)}
 .cat-title{font-size:clamp(24px,3vw,32px);margin:48px 0 22px}
 .cat-title:first-child{margin-top:0}
 .h1-course{font-size:clamp(32px,4.4vw,52px)}
@@ -213,6 +225,9 @@ details p{color:var(--muted);padding-bottom:6px}
   .hero-photo{max-width:520px}
 }
 @media (max-width:720px){
+  .featured-card{grid-template-columns:1fr;padding:28px 22px;gap:24px}
+  .fc-side{flex-direction:row;flex-wrap:wrap;justify-content:flex-start;text-align:left}
+  .fc-cover{width:96px;height:96px}
   body{font-size:16px}
   .section{padding:56px 0}
   .burger{display:block}

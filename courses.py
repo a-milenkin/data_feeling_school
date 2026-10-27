@@ -46,7 +46,22 @@ def is_soon(c):
     return c.get("status") == "soon"
 
 
+def featured_card(c):
+    points = "".join(f"<li>{e(x)}</li>" for x in c.get("highlights", []))
+    return (
+        f'<a class="card featured-card reveal" href="/{c["slug"]}/">'
+        f'<div class="fc-main"><span class="fc-badge">{e(c.get("badge", ""))}</span>'
+        f'<h3>{e(c["card_title"])}</h3><p>{e(c["short"])}</p>'
+        f'<ul class="fc-points">{points}</ul></div>'
+        f'<div class="fc-side"><img class="fc-cover" src="{c["cover"]}" alt="" loading="lazy" width="160" height="160">'
+        f'<div class="fc-price">{e(c.get("price", ""))}</div><span class="btn primary">Смотреть интенсив →</span></div>'
+        f'</a>'
+    )
+
+
 def course_card(c):
+    if c.get("featured"):
+        return featured_card(c)
     meta = []
     if c.get("students"):
         meta.append(f'{num(c["students"])} студентов')
@@ -73,8 +88,12 @@ def course_cards(courses, category=None):
 def catalog(courses):
     """Каталог по категориям для страницы /courses/."""
     out = []
+    top = [c for c in courses.values() if c.get("featured")]
+    if top:
+        out.append('<div class="grid-3">' + "\n".join(featured_card(c) for c in top) + "</div>")
+    rest = {k: c for k, c in courses.items() if not c.get("featured")}
     for key, name in CATEGORIES.items():
-        cards = course_cards(courses, key)
+        cards = course_cards(rest, key)
         if cards:
             out.append(f'<h2 class="cat-title">{name}</h2><div class="grid-3">{cards}</div>')
     return "\n".join(out)
