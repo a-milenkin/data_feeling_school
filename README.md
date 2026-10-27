@@ -40,8 +40,15 @@ source: https://t.me/datafeeling/1994   # необязательно: пост-�
 Цвета и радиусы — переменные в начале `assets/css/style.css` (акцент: `--accent`).
 
 ## Деплой на Beget
-Файлы сайта лежат в `~/datafeelingschool.ru/public_html/`.
-- **Автоматически:** workflow `.github/workflows/deploy.yml` собирает сайт и заливает `dist/` по FTP при пуше в `main`. Добавьте в GitHub → Settings → Secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_DIR` (например `datafeelingschool.ru/public_html/`). Данные FTP — в панели Beget → «FTP».
-- **Вручную:** `python3 build.py`, затем загрузите содержимое `dist/` в `public_html` (FTP или файловый менеджер Beget).
+Домен `datafeelingschool.ru` привязан в панели Beget к сайту `testdraft.store`, файлы лежат в `~/testdraft.store/public_html/`.
 
-⚠️ На сервере уже есть папки `images/` и `videos/` старого лендинга. **Не удаляйте их:** `/n8n/` ссылается на `/videos/*.mp4` (видео в репозиторий не кладём). Картинки `images/` лежат в `src/static/images/`.
+1. Запушьте изменения в `main`.
+2. Откройте панель Beget → «Терминал» → «Виртуальный хостинг» и выполните:
+   ```
+   curl -s https://raw.githubusercontent.com/a-milenkin/data_feeling_school/main/deploy.sh | sh
+   ```
+Скрипт сделает резервную копию в `~/backups` (без видео), скачает код из GitHub, соберёт сайт и скопирует его поверх. Ничего не удаляет.
+
+⚠️ Папки `images/` и `videos/` на сервере не удаляйте: `/n8n/` берёт оттуда видео (в репозиторий они не входят).
+
+Вход по SSH-ключу с компьютера на Beget не держится: веб-терминал панели при подключении перезаписывает `~/.ssh/authorized_keys`. Вариант с GitHub Actions по FTP описан в `.github/workflows/deploy.yml` (нужны секреты `FTP_*`).

@@ -16,5 +16,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/
-          server-dir: ${{ secrets.FTP_DIR }}   # например datafeelingschool.ru/public_html/
+          server-dir: ${{ secrets.FTP_DIR }}   # например testdraft.store/public_html/
           # видео и старые файлы на сервере не трогаем: удаляются только файлы, которые залил сам деплой
