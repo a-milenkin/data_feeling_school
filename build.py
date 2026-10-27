@@ -6,6 +6,7 @@
 
 Страницы:  src/pages/*.html   (шапка с метаданными между строками ---)
 Статьи:    src/blog/*.md      (метаданные + Markdown)
+Курсы:     src/courses/*.json (страница /<slug>/ по шаблону из courses.py)
 Статика:   src/static/        (копируется в dist/ как есть)
 Ассеты:    assets/            (css, js, картинки)
 """
@@ -16,24 +17,16 @@ import sys
 from datetime import date, datetime
 from pathlib import Path
 
+from courses import (catalog, course_cards, course_jsonld, footer_links, load_courses,
+                     render_course_page)
+
 ROOT = Path(__file__).parent
 SRC, DIST = ROOT / "src", ROOT / "dist"
 SITE = "https://datafeelingschool.ru"
 DEFAULT_IMAGE = SITE + "/assets/img/aleron-stage.jpg"
 
-# Курсы: на них ссылаются статьи (поле course) и блоки «статьи по теме»
-COURSES = {
-    "pet-project": {
-        "title": "Пет-проект → микро-SaaS за 3 месяца",
-        "blurb": "Интенсив: от выбора идеи до первых платежей и 100 000 ₽ в месяц.",
-        "url": "/pet-project/", "label": "Пет-проекты",
-    },
-    "n8n": {
-        "title": "ИИ-агенты и автоматизация на n8n",
-        "blurb": "27 часов практики: от первого сценария до RAG и MCP-агентов.",
-        "url": "/n8n/", "label": "n8n и ИИ-агенты",
-    },
-}
+# Курсы: src/courses/*.json (страницы курсов, карточки, связи со статьями)
+COURSES = load_courses(SRC / "courses")
 
 
 # ---------- вспомогательное ----------
@@ -174,7 +167,8 @@ def build():
     DIST.mkdir()
     layout = (SRC / "layout.html").read_text(encoding="utf-8")
     header = (SRC / "partials/header.html").read_text(encoding="utf-8")
-    footer = fill((SRC / "partials/footer.html").read_text(encoding="utf-8"), {"year": str(date.today().year)})
+    footer = fill((SRC / "partials/footer.html").read_text(encoding="utf-8"),
+                  {"year": str(date.today().year), "footer_courses": footer_links(COURSES)})
     posts = load_posts()
     urls = []
 
@@ -184,6 +178,8 @@ def build():
             sel = [p for p in posts if p["course"] == course][:limit]
             return "\n".join(post_card(p) for p in sel) or '<p class="muted">Статьи скоро появятся.</p>'
         body = re.sub(r"\{\{posts:([\w-]+)(?::(\d+))?\}\}", repl, body)
+        body = body.replace("{{catalog}}", catalog(COURSES))
+        body = re.sub(r"\{\{course_cards(?::(\w+))?\}\}", lambda m: course_cards(COURSES, m.group(1)), body)
         return re.sub(r"\{\{latest(?::(\d+))?\}\}",
                       lambda m: "\n".join(post_card(p) for p in posts[: int(m.group(1) or 3)]), body)
 
@@ -212,11 +208,25 @@ def build():
             write(path, page(meta, body, path))
         urls.append((path, meta.get("lastmod", date.today().isoformat())))
 
+    # страницы курсов из src/courses/*.json
+    for c in COURSES.values():
+        if c.get("custom_page"):
+            continue
+        rel = "\n".join(post_card(p) for p in [p for p in posts if p["course"] == c["slug"]][:3])
+        meta = {"title": f'{c["title"]} — курс Data Feeling School', "description": c["short"],
+                "head_extra": course_jsonld(c, SITE)}
+        path = f'/{c["slug"]}/'
+        write(path, page(meta, render_course_page(c, rel), path))
+        urls.append((path, date.today().isoformat()))
+
     # блог: индекс + статьи
     blog_meta, blog_body = parse((SRC / "blog" / "_index.html").read_text(encoding="utf-8")) \
         if (SRC / "blog" / "_index.html").exists() else ({}, "")
     cards = "\n".join(post_card(p) for p in posts)
-    write("/blog/", page(blog_meta, blog_body.replace("{{all_posts}}", cards), "/blog/"))
+    used = [c for c in COURSES.values() if any(p["course"] == c["slug"] for p in posts)]
+    filters = "\n".join(f'<button class="chip" data-filter="{c["slug"]}">{c["label"]}</button>' for c in used)
+    blog_body = blog_body.replace("{{all_posts}}", cards).replace("{{blog_filters}}", filters)
+    write("/blog/", page(blog_meta, blog_body, "/blog/"))
     urls.append(("/blog/", date.today().isoformat()))
 
     for p in posts:
@@ -224,8 +234,8 @@ def build():
         box = ""
         if c:
             box = (f'<div class="course-box"><div><span class="pill {p["course"]}">Курс по теме</span>'
-                   f'<h3>{c["title"]}</h3><p>{c["blurb"]}</p></div>'
-                   f'<a class="btn primary" href="{c["url"]}">Узнать больше</a></div>')
+                   f'<h3>{c["card_title"]}</h3><p>{c["short"]}</p></div>'
+                   f'<a class="btn primary" href="/{c["slug"]}/">Узнать больше</a></div>')
         related = [x for x in posts if x["slug"] != p["slug"] and x["course"] == p["course"]][:3]
         more = ""
         if related:

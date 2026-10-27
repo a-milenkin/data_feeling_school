@@ -91,6 +91,28 @@ p{margin:0 0 1em}
 .course-card .meta span{background:rgba(255,255,255,.7);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700}
 .course-card .go{margin-top:18px;font-weight:700}
 
+/* курсы */
+.cc-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.cc-cover{width:64px;height:64px;border-radius:16px;object-fit:cover;background:#fff}
+.cc-badge{background:rgba(255,255,255,.75);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;text-align:right}
+.course-card h3{font-size:22px}
+.cat-title{font-size:clamp(24px,3vw,32px);margin:48px 0 22px}
+.cat-title:first-child{margin-top:0}
+.h1-course{font-size:clamp(32px,4.4vw,52px)}
+.course-hero{display:grid;place-items:center;aspect-ratio:1/1}
+.course-hero.mint{background:var(--mint)}.course-hero.peach{background:var(--peach)}.course-hero.sky{background:var(--sky)}
+.course-hero.lemon{background:var(--lemon)}.course-hero.rose{background:var(--rose)}.course-hero.lav{background:var(--accent-soft)}
+.course-hero img{width:52%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:32px;box-shadow:0 24px 60px rgba(20,18,31,.18)}
+.authors{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.author{display:flex;gap:16px;align-items:center;background:var(--soft);border-radius:20px;padding:20px}
+.author p{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.45}
+.avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 20%;flex:none;background:var(--accent-soft)}
+.avatar.initials{display:grid;place-items:center;font-weight:800;font-size:22px;color:var(--accent-d)}
+.price-card.single{grid-template-columns:1fr}
+.price-card.single .btn{margin-top:20px}
+.dark-steps .step{background:#1f1c33;border-color:#2f2c47}
+.dark-steps .step p{color:#c9c6dc}
+
 /* шаги */
 .steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .step{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;counter-increment:s}
