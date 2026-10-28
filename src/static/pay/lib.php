@@ -24,12 +24,13 @@ const PRODUCT_TITLE = 'Практикум «Пет-проект → микро-S
 const SITE_URL = 'https://datafeelingschool.ru';
 
 // Потоки стартуют 1-го числа каждого месяца в 00:00 МСК; 1 ноября 2026 — поток №3.
-// Цена на сайте: Stepik − 7%, а за EARLY_DAYS дней до старта — ещё −5%.
+// Цена на сайте: Stepik − 7%, а первые три недели месяца — ещё −5%: бонус сгорает,
+// когда до старта следующего потока остаётся BONUS_CLOSE_DAYS дней или меньше.
 // Те же правила продублированы в assets/js/main.js (таймер и цена на странице).
 const STEPIK_PRICE = 48500;
 const SITE_OFF = 7;
-const EARLY_OFF = 5;
-const EARLY_DAYS = 5;
+const BONUS_OFF = 5;
+const BONUS_CLOSE_DAYS = 7;
 const FIRST_STREAM = [2026, 11, 3]; // год, месяц, номер потока
 
 function stream_info() {
@@ -37,9 +38,9 @@ function stream_info() {
     $now = new DateTimeImmutable('now', $tz);
     $start = $now->modify('first day of next month')->setTime(0, 0);
     $months = ((int) $start->format('Y') - FIRST_STREAM[0]) * 12 + (int) $start->format('n') - FIRST_STREAM[1];
-    $early = $start->getTimestamp() - $now->getTimestamp() <= EARLY_DAYS * 86400;
-    $off = SITE_OFF + ($early ? EARLY_OFF : 0);
-    return ['number' => FIRST_STREAM[2] + $months, 'start' => $start, 'early' => $early,
+    $bonus = $start->getTimestamp() - $now->getTimestamp() > BONUS_CLOSE_DAYS * 86400;
+    $off = SITE_OFF + ($bonus ? BONUS_OFF : 0);
+    return ['number' => FIRST_STREAM[2] + $months, 'start' => $start, 'bonus' => $bonus,
             'off' => $off, 'price' => (int) round(STEPIK_PRICE * (100 - $off) / 100)];
 }
 

@@ -42,10 +42,11 @@
   if (want) { chips.forEach(function (c) { if (c.getAttribute('data-filter') === want) c.click(); }); }
 
   // потоки практикума: старт 1-го числа каждого месяца в 00:00 МСК, 1 ноября 2026 — поток №3.
-  // За EARLY_DAYS дней до старта к оплате на сайте добавляется ещё −5%.
+  // Первые три недели месяца к оплате на сайте добавляется ещё −5%; бонус сгорает,
+  // когда до старта следующего потока остаётся BONUS_CLOSE_DAYS дней или меньше.
   // Те же правила на сервере: src/static/pay/lib.php (цену в итоге считает он).
   var STREAM = { year: 2026, month: 10, number: 3 }; // month с нуля: 10 = ноябрь
-  var STEPIK_PRICE = 48500, SITE_OFF = 7, EARLY_OFF = 5, EARLY_DAYS = 5;
+  var STEPIK_PRICE = 48500, SITE_OFF = 7, BONUS_OFF = 5, BONUS_CLOSE_DAYS = 7;
   var MSK = 3 * 3600 * 1000;
   var MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
   var plural = function (n, forms) {
@@ -64,17 +65,22 @@
   var timers = document.querySelectorAll('[data-stream-timer]');
   if (timers.length) {
     var st = nextStream();
-    var early = st.start - Date.now() <= EARLY_DAYS * 86400000;
-    var off = SITE_OFF + (early ? EARLY_OFF : 0);
+    var bonusEnd = st.start - BONUS_CLOSE_DAYS * 86400000;
+    var bonus = Date.now() < bonusEnd;
+    var off = SITE_OFF + (bonus ? BONUS_OFF : 0);
     var setAll = function (sel, fn) { document.querySelectorAll(sel).forEach(fn); };
     setAll('[data-stream-tag]', function (el) { el.textContent = 'Поток №' + st.number + ' · старт ' + st.day; });
     setAll('[data-stream-name]', function (el) { el.textContent = 'потока №' + st.number; });
     setAll('[data-stream-date]', function (el) { el.textContent = st.day; });
     setAll('[data-site-price]', function (el) { el.textContent = rub(Math.round(STEPIK_PRICE * (100 - off) / 100)); });
     setAll('[data-site-off]', function (el) { el.textContent = '−' + off + '%'; });
-    setAll('[data-early-deal]', function (el) {
+    setAll('[data-bonus-date]', function (el) { // последний день бонуса по Москве
+      var d = new Date(bonusEnd - 1 + MSK);
+      el.textContent = d.getUTCDate() + ' ' + MONTHS[d.getUTCMonth()];
+    });
+    setAll('[data-bonus-deal]', function (el) {
       var pay = document.querySelector('[data-pay]'); // скидка видна, только когда видна кнопка оплаты на сайте
-      el.hidden = !(early && pay && (!pay.hidden || new URLSearchParams(location.search).get('pay_test')));
+      el.hidden = !(bonus && pay && (!pay.hidden || new URLSearchParams(location.search).get('pay_test')));
     });
     setAll('[data-stream-schedule]', function (ol) {
       var html = '';
