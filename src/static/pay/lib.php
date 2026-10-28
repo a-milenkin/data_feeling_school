@@ -6,8 +6,14 @@ if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'] ?? '')) { http_r
 
 if (!defined('DFS_HOME')) define('DFS_HOME', dirname(__DIR__, 3)); // ~/testdraft.store/public_html/pay → ~
 define('DFS_DATA', DFS_HOME . '/dfs_data');
-ini_set('log_errors', '1');
-ini_set('error_log', DFS_HOME . '/dfs_pay_errors.log'); // ошибки оплаты — вне папки сайта
+// ошибки оплаты пишем сами в ~/dfs_pay_errors.log (вне папки сайта): путь error_log на Beget не переопределяется
+function pay_log($msg) {
+    @file_put_contents(DFS_HOME . '/dfs_pay_errors.log', date('c') . ' ' . $msg . PHP_EOL, FILE_APPEND);
+}
+set_exception_handler(function ($e) {
+    pay_log(get_class($e) . ': ' . $e->getMessage() . ' @ ' . basename($e->getFile()) . ':' . $e->getLine());
+    json_out(['error' => 'Ошибка сервера оплаты. Напишите нам в Telegram.'], 500);
+});
 
 const PRODUCT_TITLE = 'Практикум «Пет-проект → микро-SaaS»';
 const SITE_URL = 'https://datafeelingschool.ru';
@@ -62,7 +68,7 @@ function http_json($method, $url, $body = null, $headers = [], $userpwd = null) 
     if ($body !== null) curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body, JSON_UNESCAPED_UNICODE));
     $raw = curl_exec($ch);
     $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    if ($raw === false) error_log('dfs pay: ' . $url . ' ' . curl_error($ch));
+    if ($raw === false) pay_log($url . ' ' . curl_error($ch));
     curl_close($ch);
     return [$code, json_decode((string) $raw, true) ?: []];
 }
@@ -81,7 +87,7 @@ function tg_chat_id() {
 
 function tg_send($text) {
     $chat = tg_chat_id();
-    if (!$chat || !cfg('tg_token')) { error_log('dfs pay: нет tg_token или chat_id'); return false; }
+    if (!$chat || !cfg('tg_token')) { pay_log('нет tg_token или chat_id'); return false; }
     [$code] = http_json('POST', 'https://api.telegram.org/bot' . cfg('tg_token') . '/sendMessage',
         ['chat_id' => $chat, 'text' => $text, 'parse_mode' => 'HTML', 'disable_web_page_preview' => true]);
     return $code === 200;

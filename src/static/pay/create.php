@@ -44,7 +44,7 @@ $id = bin2hex(random_bytes(8));
 ] : []), $id);
 
 if ($code !== 200 || empty($p['confirmation']['confirmation_url'])) {
-    error_log('dfs pay: create ' . $code . ' ' . json_encode($p, JSON_UNESCAPED_UNICODE));
+    pay_log('create ' . $code . ' ' . json_encode($p, JSON_UNESCAPED_UNICODE));
     json_out(['error' => 'Не получилось создать платёж. Попробуйте ещё раз или напишите нам в Telegram.'], 502);
 }
 
