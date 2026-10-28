@@ -392,12 +392,12 @@ details p{color:var(--muted);padding-bottom:6px}
 /* кураторы */
 .mentor{text-align:center}
 .mentor .ava{display:block;width:120px;height:120px;border-radius:50%;overflow:hidden;margin:0 auto 14px;box-shadow:0 0 0 4px var(--accent-soft)}
-.mentor .ava img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.28)} /* срезаем фон Telegram по краям кружка */
+.mentor .ava img{display:block;width:100%;height:100%;object-fit:cover}
+.mentor .ava img[src*=kamil]{transform:scale(1.28)} /* кадр из скриншота Telegram: срезаем фон по краям кружка */
 .mentor h3{margin-bottom:2px}
 .mentor p{margin:0 0 14px}
 .mentor .big{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--accent);line-height:1.1}
 .mentor .big.sm{font-size:22px;margin-bottom:4px}
-.mentor .ava img[src*=alexey]{transform:none} /* обычное фото, без фона Telegram */
 
 /* бегущие ленты скриншотов студентов */
 .mq-title{margin:44px 0 0;font-size:22px}
