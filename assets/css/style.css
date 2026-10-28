@@ -403,6 +403,7 @@ details p{color:var(--muted);padding-bottom:6px}
 .mentor .big{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--accent);line-height:1.1}
 .mentor .big.sm{font-size:22px;margin-bottom:4px}
 .mentor .big a{color:inherit}
+.mentor .big.secret{margin-top:20px;font-size:24px;letter-spacing:0;white-space:nowrap}
 
 /* бегущие ленты скриншотов студентов */
 .mq-title{margin:44px 0 0;font-size:22px}
