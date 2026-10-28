@@ -158,6 +158,10 @@
     var scoreEl = g2048.querySelector('[data-g-score]');
     var bestEl = g2048.querySelector('[data-g-best]');
     var msg = g2048.querySelector('[data-g-msg]');
+    var win = g2048.querySelector('[data-g-win]');
+    // ссылка в личку с готовым текстом (собираем в JS: tracking.py переписывает только ссылки из HTML)
+    g2048.querySelector('[data-g-claim]').href = 'https://t.me/Aleron_df?text=' +
+      encodeURIComponent('Привет! Я выиграл 2048 на сайте datafeelingschool.ru, дай мне скидку 🎉');
     var grid, score, won;
     var best = 0;
     try { best = +localStorage.getItem('g2048best') || 0; } catch (e) {}
@@ -190,7 +194,7 @@
     var newGame = function () {
       grid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
       score = 0; won = false;
-      addTile(); addTile(); say(''); render();
+      addTile(); addTile(); say(''); win.hidden = true; render();
     };
     var move = function (dir) {
       var moved = false;
@@ -208,7 +212,7 @@
       });
       if (!moved) return;
       addTile(); render();
-      if (!won && grid.indexOf(2048) !== -1) { won = true; say('🎉 2048! Кот одобряет. Можно продолжать.'); }
+      if (!won && grid.indexOf(2048) !== -1) { won = true; say(''); win.hidden = false; }
       else if (!canMove()) say('Ходов нет. Кот вздыхает. Жми «Заново».');
     };
     document.querySelectorAll('[data-2048]').forEach(function (el) {
