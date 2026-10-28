@@ -151,7 +151,7 @@
     });
   }
 
-  // пасхалка: клик по коту Алерона открывает классическую 2048
+  // пасхалка: клик по Claude Коту (игра слов с Claude Code) открывает классическую 2048
   var g2048 = document.getElementById('g2048');
   if (g2048) {
     var board = g2048.querySelector('[data-g-board]');
