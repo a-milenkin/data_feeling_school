@@ -68,7 +68,7 @@ function http_json($method, $url, $body = null, $headers = [], $userpwd = null) 
     if ($body !== null) curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body, JSON_UNESCAPED_UNICODE));
     $raw = curl_exec($ch);
     $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    if ($raw === false) pay_log($url . ' ' . curl_error($ch));
+    if ($raw === false) pay_log(preg_replace('~/bot[^/]+~', '/bot***', $url) . ' ' . curl_error($ch));
     curl_close($ch);
     return [$code, json_decode((string) $raw, true) ?: []];
 }
