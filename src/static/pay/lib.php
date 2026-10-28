@@ -12,7 +12,11 @@ function pay_log($msg) {
 }
 set_exception_handler(function ($e) {
     pay_log(get_class($e) . ': ' . $e->getMessage() . ' @ ' . basename($e->getFile()) . ':' . $e->getLine());
-    json_out(['error' => 'Ошибка сервера оплаты. Напишите нам в Telegram.'], 500);
+    // в тестовом режиме (запрос с test_code) показываем причину, чтобы отладить без доступа к логам
+    $debug = cfg('test_code') && str_contains((string) file_get_contents('php://input'), (string) cfg('test_code'));
+    json_out(['error' => 'Ошибка сервера оплаты. Напишите нам в Telegram.']
+        + ($debug ? ['debug' => $e->getMessage() . ' @ ' . basename($e->getFile()) . ':' . $e->getLine(),
+                     'ini' => ['open_basedir' => ini_get('open_basedir'), 'home' => DFS_HOME]] : []), 500);
 });
 
 const PRODUCT_TITLE = 'Практикум «Пет-проект → микро-SaaS»';
