@@ -97,7 +97,7 @@ source: https://t.me/datafeeling/1994   # необязательно: пост-�
 ```
 
 Заказы сохраняются в `~/dfs_data/orders/`, chat_id для уведомлений — в `~/dfs_data/tg_chat_id`.
-Проверка настройки на сервере: `php ~/dfs_src/tools/pay_check.php` (ключ ЮKassa, чат с ботом, тестовое сообщение).
+Проверка настройки на сервере: `php8.4 ~/dfs_src/tools/pay_check.php` (ключ ЮKassa, чат с ботом, тестовое сообщение).
 
 Кнопка «Оплатить на сайте» скрыта (`hidden` в `src/pages/pet-project.html`), пока не убрать атрибут.
 Тестовая оплата 1 ₽: `https://datafeelingschool.ru/pet-project/?pay_test=<test_code>#price`.

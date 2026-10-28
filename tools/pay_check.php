@@ -1,5 +1,5 @@
 <?php
-// Проверка настройки оплаты. Запускать на сервере Beget:  php ~/dfs_src/tools/pay_check.php
+// Проверка настройки оплаты. Запускать на сервере Beget:  php8.4 ~/dfs_src/tools/pay_check.php
 // Проверяет ключи ЮKassa, находит чат с ботом (нужно заранее нажать /start) и шлёт тестовое сообщение.
 define('DFS_HOME', getenv('HOME') ?: dirname(__DIR__, 2));
 $_SERVER['SCRIPT_FILENAME'] = __FILE__;
