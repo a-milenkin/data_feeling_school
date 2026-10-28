@@ -12,3 +12,11 @@ echo 'curl: ', var_export(function_exists('curl_init'), true), "\n";
 try { $c = require $f; echo 'require: ', gettype($c), ' keys=', is_array($c) ? implode(',', array_keys($c)) : '-', "\n"; }
 catch (Throwable $e) { echo 'require error: ', get_class($e), ' ', $e->getMessage(), "\n"; }
 $t = @tempnam(sys_get_temp_dir(), 'x'); echo 'tmp: ', sys_get_temp_dir(), ' ', $t ? 'ok' : 'fail', "\n";
+foreach ([dirname(__DIR__, 2), dirname(__DIR__)] as $d) {
+    $probe = $d . '/.dfs_probe';
+    $w = @file_put_contents($probe, 'x') !== false;
+    echo $d, ': perms ', substr(sprintf('%o', fileperms($d)), -4), ' owner ', fileowner($d), ' group ', filegroup($d), ' write ', var_export($w, true);
+    if ($w) { echo ' new file owner ', fileowner($probe), ' perms ', substr(sprintf('%o', fileperms($probe)), -4); @unlink($probe); }
+    echo "\n";
+}
+echo 'egid: ', function_exists('posix_getegid') ? posix_getegid() : '?', ' secrets group: ', @filegroup($f), "\n";
