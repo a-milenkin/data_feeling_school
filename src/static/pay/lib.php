@@ -8,8 +8,27 @@ if (!defined('DFS_HOME')) define('DFS_HOME', dirname(__DIR__, 3)); // ~/testdraf
 define('DFS_DATA', DFS_HOME . '/dfs_data');
 
 const PRODUCT_TITLE = 'Практикум «Пет-проект → микро-SaaS»';
-const PRODUCT_PRICE = 45105; // 48 500 ₽ на Stepik − 7%
 const SITE_URL = 'https://datafeelingschool.ru';
+
+// Потоки стартуют 1-го числа каждого месяца в 00:00 МСК; 1 ноября 2026 — поток №3.
+// Цена на сайте: Stepik − 7%, а за EARLY_DAYS дней до старта — ещё −5%.
+// Те же правила продублированы в assets/js/main.js (таймер и цена на странице).
+const STEPIK_PRICE = 48500;
+const SITE_OFF = 7;
+const EARLY_OFF = 5;
+const EARLY_DAYS = 5;
+const FIRST_STREAM = [2026, 11, 3]; // год, месяц, номер потока
+
+function stream_info() {
+    $tz = new DateTimeZone('Europe/Moscow');
+    $now = new DateTimeImmutable('now', $tz);
+    $start = $now->modify('first day of next month')->setTime(0, 0);
+    $months = ((int) $start->format('Y') - FIRST_STREAM[0]) * 12 + (int) $start->format('n') - FIRST_STREAM[1];
+    $early = $start->getTimestamp() - $now->getTimestamp() <= EARLY_DAYS * 86400;
+    $off = SITE_OFF + ($early ? EARLY_OFF : 0);
+    return ['number' => FIRST_STREAM[2] + $months, 'start' => $start, 'early' => $early,
+            'off' => $off, 'price' => (int) round(STEPIK_PRICE * (100 - $off) / 100)];
+}
 
 function cfg($key) {
     static $c;
@@ -113,7 +132,9 @@ function paid_message($order, $payment) {
     $e = fn($s) => htmlspecialchars((string) $s, ENT_QUOTES);
     $sum = number_format((float) $payment['amount']['value'], 0, ',', ' ');
     return "💰 <b>Оплата на сайте: {$sum} ₽</b>" . (!empty($order['test']) ? ' (тест)' : '') . "\n"
-        . $e(PRODUCT_TITLE) . "\n\n"
+        . $e(PRODUCT_TITLE) . "\n"
+        . 'Поток №' . $e($order['stream'] ?? '?') . ', старт ' . $e($order['stream_start'] ?? '?')
+        . (isset($order['off']) ? " · скидка {$order['off']}%" : '') . "\n\n"
         . 'Имя: ' . $e($order['name']) . "\n"
         . 'Почта: ' . $e($order['email']) . "\n"
         . 'Telegram: @' . $e($order['tg']) . "\n\n"

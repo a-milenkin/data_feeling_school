@@ -19,7 +19,8 @@ if (empty($in['consent'])) json_out(['error' => 'Нужно согласие с 
 
 // тестовый режим: секретный код из ~/dfs_secrets.php → цена 1 ₽
 $test = cfg('test_code') && hash_equals((string) cfg('test_code'), (string) ($in['test'] ?? ''));
-$amount = ['value' => number_format($test ? 1 : PRODUCT_PRICE, 2, '.', ''), 'currency' => 'RUB'];
+$stream = stream_info();
+$amount = ['value' => number_format($test ? 1 : $stream['price'], 2, '.', ''), 'currency' => 'RUB'];
 
 $id = bin2hex(random_bytes(8));
 [$code, $p] = yk('POST', '/payments', [
@@ -27,7 +28,7 @@ $id = bin2hex(random_bytes(8));
     'capture' => true,
     'confirmation' => ['type' => 'redirect', 'return_url' => SITE_URL . '/pay/success/?order=' . $id],
     'description' => PRODUCT_TITLE,
-    'metadata' => ['order_id' => $id, 'tg' => $tg],
+    'metadata' => ['order_id' => $id, 'tg' => $tg, 'stream' => $stream['number']],
     'receipt' => [
         'customer' => ['email' => $email, 'full_name' => $name],
         'items' => [[
@@ -48,6 +49,7 @@ if ($code !== 200 || empty($p['confirmation']['confirmation_url'])) {
 
 order_save([
     'id' => $id, 'payment_id' => $p['id'], 'status' => $p['status'], 'test' => $test,
-    'amount' => $amount['value'], 'name' => $name, 'email' => $email, 'tg' => $tg, 'created_at' => date('c'),
+    'amount' => $amount['value'], 'off' => $stream['off'],
+    'stream' => $stream['number'], 'stream_start' => $stream['start']->format('d.m.Y'), 'name' => $name, 'email' => $email, 'tg' => $tg, 'created_at' => date('c'),
 ]);
 json_out(['url' => $p['confirmation']['confirmation_url']]);

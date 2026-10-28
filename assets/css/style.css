@@ -193,7 +193,7 @@ details.past .ticks b{color:var(--ink)}
 .price-box .btn{width:100%}
 
 /* оплата на сайте (ЮKassa) */
-.pay-btn{margin-top:10px}
+.pay-btn{margin-top:10px;padding-left:18px;padding-right:18px;font-size:15px}
 .pay-btn[hidden]{display:none}
 .pay-off{display:inline-block;background:#16a34a;color:#fff;border-radius:999px;padding:2px 9px;font-size:13px;font-weight:800}
 .pay-modal{border:0;border-radius:28px;padding:0;width:min(460px,calc(100% - 32px));max-height:calc(100% - 32px);color:var(--ink);box-shadow:0 30px 80px rgba(20,18,31,.35)}
@@ -215,6 +215,27 @@ details.past .ticks b{color:var(--ink)}
 .pay-form .btn:disabled{opacity:.6;cursor:wait}
 .pay-form .small{margin:0;text-align:center}
 .pay-close{position:absolute;top:14px;right:16px;border:0;background:var(--soft);width:36px;height:36px;border-radius:50%;font-size:22px;line-height:1;cursor:pointer;color:var(--ink)}
+.stream-timer{margin-top:26px;background:var(--soft);border:1px solid var(--line);border-radius:22px;padding:16px 18px;max-width:460px}
+.stream-timer.dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);margin-top:22px}
+.st-head{font-size:14px;color:var(--muted);margin-bottom:10px}
+.st-head b{color:var(--ink)}
+.stream-timer.dark .st-head{color:#a8a4c4}
+.stream-timer.dark .st-head b{color:#fff}
+.st-clock{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.st-clock div{background:#fff;border-radius:14px;padding:10px 4px 8px;text-align:center;box-shadow:0 1px 0 var(--line)}
+.stream-timer.dark .st-clock div{background:rgba(255,255,255,.08);box-shadow:none}
+.st-clock b{display:block;font-size:28px;line-height:1.1;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--accent)}
+.stream-timer.dark .st-clock b{color:#fff}
+.st-clock span{font-size:12px;color:var(--muted)}
+.stream-timer.dark .st-clock span{color:#a8a4c4}
+.st-deal{margin:12px 0 0;font-size:14px;font-weight:700;color:#16a34a}
+.st-schedule{margin:14px 0 0;color:#e4e1f5;max-width:460px;background:none;border:0;border-radius:0;padding:0}
+.st-schedule summary{font-size:14px;font-weight:600;color:#b9a7ff;padding:6px 0;display:inline-block}
+.st-schedule summary::after{position:static;transform:none;font-size:18px;margin-left:8px;color:#b9a7ff;vertical-align:-1px}
+.st-schedule ol{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:14px}
+.st-schedule li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(255,255,255,.08);padding:4px 0}
+.st-schedule li span{color:#a8a4c4;white-space:nowrap}
+.st-schedule li b{white-space:nowrap;font-weight:600}
 .pay-status{max-width:640px;margin:0 auto;text-align:center;padding:80px 20px}
 .pay-status .icon{font-size:56px;line-height:1;margin-bottom:12px}
 .pay-status [hidden]{display:none}
