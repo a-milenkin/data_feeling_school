@@ -84,6 +84,7 @@ p{margin:0 0 1em}
 .card.sky{background:var(--sky)}.card.rose{background:var(--rose)}.card.lav{background:var(--accent-soft)}
 .card.white{background:#fff;border:1px solid var(--line)}
 .card p:last-child{margin-bottom:0}
+.exit-badge{position:absolute;top:24px;right:24px;background:#fff;color:#0d6b43;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:800}
 .card .ico{font-size:30px;margin-bottom:12px;display:block}
 .card .no{font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--accent);margin-bottom:10px;display:block}
 
