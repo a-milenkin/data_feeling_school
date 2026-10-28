@@ -29,6 +29,7 @@ $id = bin2hex(random_bytes(8));
     'confirmation' => ['type' => 'redirect', 'return_url' => SITE_URL . '/pay/success/?order=' . $id],
     'description' => PRODUCT_TITLE,
     'metadata' => ['order_id' => $id, 'tg' => $tg, 'stream' => $stream['number']],
+] + (cfg('receipt') ? [ // чек 54-ФЗ — только если в ЮKassa включены чеки ('receipt' => true в ~/dfs_secrets.php)
     'receipt' => [
         'customer' => ['email' => $email, 'full_name' => $name],
         'items' => [[
@@ -40,7 +41,7 @@ $id = bin2hex(random_bytes(8));
             'payment_subject' => 'service',
         ]],
     ],
-], $id);
+] : []), $id);
 
 if ($code !== 200 || empty($p['confirmation']['confirmation_url'])) {
     error_log('dfs pay: create ' . $code . ' ' . json_encode($p, JSON_UNESCAPED_UNICODE));

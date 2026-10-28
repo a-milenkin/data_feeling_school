@@ -15,9 +15,19 @@ line($code === 200, 'ЮKassa: ключ принят' . ($code === 200
     ? ', магазин ' . ($me['account_id'] ?? '?') . ', статус ' . ($me['status'] ?? '?') . ', тестовый: ' . (!empty($me['test']) ? 'да' : 'нет')
       . ', чеки: ' . (!empty($me['fiscalization']['enabled']) ? 'включены (' . ($me['fiscalization']['provider'] ?? '') . ')' : 'выключены')
     : " (HTTP $code: " . ($me['description'] ?? 'нет ответа') . ')'));
+if ($code === 200) line(!empty($me['fiscalization']['enabled']) === (bool) cfg('receipt'),
+    'Чеки: в ЮKassa ' . (!empty($me['fiscalization']['enabled']) ? 'включены' : 'выключены') . ', сайт ' . (cfg('receipt') ? 'передаёт' : 'не передаёт')
+    . ' данные чека' . (!empty($me['fiscalization']['enabled']) && !cfg('receipt') ? " — добавьте 'receipt'=>true в ~/dfs_secrets.php" : ''));
+
+$tg = 'https://api.telegram.org/bot' . cfg('tg_token');
+[$code, $bot] = http_json('GET', $tg . '/getMe');
+line($code === 200, 'Telegram: бот ' . ($code === 200 ? '@' . $bot['result']['username'] : "не отвечает (HTTP $code: " . ($bot['description'] ?? 'нет связи с api.telegram.org') . ')'));
+[, $wh] = http_json('GET', $tg . '/getWebhookInfo');
+if (!empty($wh['result']['url'])) line(false, 'Telegram: у бота настроен вебхук на другой сервис, getUpdates не работает. Найдите chat_id через @userinfobot и добавьте \'tg_chat_id\' в ~/dfs_secrets.php');
 
 if (!tg_chat_id()) {
-    [$code, $upd] = http_json('GET', 'https://api.telegram.org/bot' . cfg('tg_token') . '/getUpdates');
+    [$code, $upd] = http_json('GET', $tg . '/getUpdates');
+    line($code === 200, 'Telegram: новых сообщений боту — ' . count($upd['result'] ?? []) . ($code === 200 ? '' : ' (' . ($upd['description'] ?? '') . ')'));
     foreach (array_reverse($upd['result'] ?? []) as $u) {
         $chat = $u['message']['chat'] ?? null;
         if ($chat && $chat['type'] === 'private') {
