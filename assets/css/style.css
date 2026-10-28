@@ -203,6 +203,11 @@ details.past .ticks b{color:var(--ink)}
 .price-box .btn{width:100%}
 
 /* оплата на сайте (ЮKassa) */
+.split-btn{position:relative;gap:10px}
+.stepik-tag{background:rgba(255,255,255,.2);border-radius:999px;padding:3px 9px;font-size:12px;font-weight:700}
+/* подсказка: оплата частями проходит на странице Stepik */
+.split-btn::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 12px);transform:translate(-50%,6px);width:min(300px,80vw);background:var(--ink);color:#fff;font-size:13px;font-weight:500;line-height:1.45;text-align:left;padding:10px 14px;border-radius:12px;box-shadow:0 10px 30px rgba(20,18,31,.3);opacity:0;pointer-events:none;transition:.18s;z-index:5}
+.split-btn:hover::after,.split-btn:focus-visible::after{opacity:1;transform:translate(-50%,0)}
 .pay-btn{margin-top:10px;padding-left:18px;padding-right:18px;font-size:15px}
 .pay-btn[hidden]{display:none}
 .pay-off{display:inline-block;background:#16a34a;color:#fff;border-radius:999px;padding:2px 9px;font-size:13px;font-weight:800}
@@ -297,6 +302,11 @@ details p{color:var(--muted);padding-bottom:6px}
 .pc-cover.ph.peach{background:linear-gradient(135deg,var(--peach),#ffc9ad)}.pc-cover.ph.sky{background:linear-gradient(135deg,var(--sky),#b9dbff)}
 .pc-cover.ph.lemon{background:linear-gradient(135deg,var(--lemon),#ffe48a)}.pc-cover.ph.rose{background:linear-gradient(135deg,var(--rose),#ffbfd2)}
 .pc-emoji{font-size:56px;line-height:1}
+.pc-cover.tx{justify-content:flex-end;gap:2px}
+.pc-icon{position:absolute;top:16px;right:20px;font-size:40px;line-height:1;opacity:.9}
+.pc-big{font-size:64px;font-weight:800;letter-spacing:-.04em;line-height:.95;color:var(--ink)}
+.pc-big.long{font-size:34px;letter-spacing:-.02em;line-height:1.05;max-width:85%}
+.pc-sub{font-size:14px;font-weight:700;color:rgba(20,18,31,.6)}
 .pc-label{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(20,18,31,.55)}
 .post-card{overflow:hidden}
 .post-card h3{font-size:20px;margin:12px 0 8px}

@@ -152,8 +152,14 @@ def post_card(p):
     else:
         palette = ["lav", "mint", "peach", "sky", "lemon", "rose"]
         color = palette[sum(map(ord, p["slug"])) % len(palette)]
-        cover = (f'<div class="pc-cover ph {color}"><span class="pc-emoji">{c.get("emoji", "✍️")}</span>'
-                 f'<span class="pc-label">{html.escape(label)}</span></div>')
+        if p.get("cover_big"):  # своя обложка из полей статьи: крупная цифра/фраза, подпись и значок
+            big = p["cover_big"]
+            cover = (f'<div class="pc-cover ph tx {color}"><span class="pc-icon">{p.get("cover_icon", "")}</span>'
+                     f'<span class="pc-big{" long" if len(big) > 5 else ""}">{html.escape(big)}</span>'
+                     f'<span class="pc-sub">{html.escape(p.get("cover_sub", ""))}</span></div>')
+        else:
+            cover = (f'<div class="pc-cover ph {color}"><span class="pc-emoji">{c.get("emoji", "✍️")}</span>'
+                     f'<span class="pc-label">{html.escape(label)}</span></div>')
     return (
         f'<a class="post-card reveal" data-course="{course}" href="/blog/{p["slug"]}/">{cover}'
         f'<span class="pill {course}">{label}</span><h3>{html.escape(p["title"])}</h3>'

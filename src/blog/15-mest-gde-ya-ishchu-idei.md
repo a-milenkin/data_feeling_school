@@ -4,6 +4,9 @@ description: Как внутри выбранного рынка найти св
 date: 2026-10-27
 course: pet-project
 source: https://t.me/aleron_saas/70
+cover_big: 15
+cover_sub: мест, где я ищу идеи
+cover_icon: 🔎
 ---
 В прошлой статье были [20 рынков, где ходят деньги](/blog/20-rynkov-gde-uzhe-platyat/). Теперь о том, как внутри рынка найти свою конкретную идею.
 

@@ -4,6 +4,9 @@ description: Двадцать ниш для микро-SaaS с живыми пр
 date: 2026-10-26
 course: pet-project
 source: https://t.me/aleron_saas/61
+cover_big: 20
+cover_sub: рынков, где уже платят
+cover_icon: 💰
 ---
 Самый частый вопрос в личке: критерии хорошей идеи понятны, а самих идей нет.
 
