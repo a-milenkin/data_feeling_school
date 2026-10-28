@@ -405,6 +405,9 @@ details p{color:var(--muted);padding-bottom:6px}
 .marquee{overflow:hidden;padding:18px 0 6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
 .mq-track{display:flex;width:max-content;animation:mq calc(var(--n) * 5s) linear infinite}
 .marquee.mrr .mq-track{animation-duration:calc(var(--n) * 7s);animation-direction:reverse}
+/* лента первых оплат: окно примерно на 9 скриншотов, остальные уходят в туман по краям */
+.marquee.first{max-width:1520px;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+.mq-item.first img{height:340px}
 /* в ленте MRR пока 3 скриншота: узкое окно на ~3,5 карточки и густой туман по краям, едет в обратную сторону */
 .marquee.mrr{max-width:1040px;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}
 .marquee:hover .mq-track{animation-play-state:paused}
