@@ -6,6 +6,8 @@ if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'] ?? '')) { http_r
 
 if (!defined('DFS_HOME')) define('DFS_HOME', dirname(__DIR__, 3)); // ~/testdraft.store/public_html/pay → ~
 define('DFS_DATA', DFS_HOME . '/dfs_data');
+ini_set('log_errors', '1');
+ini_set('error_log', DFS_HOME . '/dfs_pay_errors.log'); // ошибки оплаты — вне папки сайта
 
 const PRODUCT_TITLE = 'Практикум «Пет-проект → микро-SaaS»';
 const SITE_URL = 'https://datafeelingschool.ru';
