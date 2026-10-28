@@ -1,0 +1,39 @@
+---
+path: /pay/success/
+title: Оплата практикума — Data Feeling School
+description: Статус оплаты практикума «Пет-проект → микро-SaaS».
+noindex: yes
+tg_message: Привет, я оплатил практикум по пет-проектам и хочу начать
+---
+<section class="pay-status" data-pay-status>
+  <div data-state="pending">
+    <div class="icon">⏳</div>
+    <h1>Проверяем оплату…</h1>
+    <p class="lead" style="margin:0 auto">Обычно это занимает несколько секунд. Не закрывайте страницу.</p>
+  </div>
+  <div data-state="succeeded" hidden>
+    <div class="icon">🎉</div>
+    <h1>Оплата прошла!</h1>
+    <p class="lead" style="margin:0 auto">Последний шаг: напишите мне в Telegram. Я открою доступ к курсу и добавлю вас в поток и закрытый чат.</p>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn primary" href="https://t.me/Aleron_df" rel="noopener">Написать @Aleron_df</a>
+    </div>
+    <p class="small muted" style="margin-top:18px">Чек ЮKassa придёт на почту, указанную при оплате.</p>
+  </div>
+  <div data-state="canceled" hidden>
+    <div class="icon">😕</div>
+    <h1>Платёж не прошёл</h1>
+    <p class="lead" style="margin:0 auto">Деньги не списаны. Попробуйте ещё раз или выберите оплату на Stepik.</p>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn primary" href="/pet-project/#price">Вернуться к оплате</a>
+    </div>
+  </div>
+  <div data-state="slow" hidden>
+    <div class="icon">⌛</div>
+    <h1>Платёж ещё обрабатывается</h1>
+    <p class="lead" style="margin:0 auto">Банк отвечает дольше обычного. Если деньги списались, напишите мне в Telegram, я проверю вручную.</p>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn primary" href="https://t.me/Aleron_df" rel="noopener">Написать @Aleron_df</a>
+    </div>
+  </div>
+</section>

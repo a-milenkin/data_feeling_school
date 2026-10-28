@@ -40,8 +40,9 @@ def tg_text(context=None):
     return f"{base}. {context}" if context else f"{base}."
 
 
-def track(html_text, path, tg_context=None):
+def track(html_text, path, tg_context=None, tg_message=None):
+    """tg_message — текст в личку целиком (например, после оплаты), вместо стандартного «Нашёл твой контакт…»."""
     content = page_key(path)
     html_text = STEPIK_RE.sub(lambda m: f'href="{add_utm(m.group(1), content).replace("&", "&amp;")}"', html_text)
-    tg_url = f"https://t.me/{TG_USER}?text={quote(tg_text(tg_context))}"
+    tg_url = f"https://t.me/{TG_USER}?text={quote(tg_message or tg_text(tg_context))}"
     return TG_RE.sub(f'href="{tg_url}"', html_text)

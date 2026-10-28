@@ -234,11 +234,29 @@ image: https://datafeelingschool.ru/assets/img/aleron-stage.jpg
         <div class="price">48 500 ₽</div>
         <p class="small muted" style="margin:8px 0 20px">Рассрочка · оплата от компании по счёту · можно подарить</p>
         <a class="btn primary" href="https://stepik.org/course/258985/promo" rel="noopener">Записаться на Stepik</a>
+        <button class="btn ghost pay-btn" type="button" data-pay hidden>Оплатить на сайте <span class="nowrap">45&nbsp;105&nbsp;₽</span> <span class="pay-off">−7%</span></button>
         <p class="small muted" style="margin:14px 0 0">Возврат в течение 30 дней по правилам платформы</p>
       </div>
     </div>
   </div>
 </section>
+
+<dialog class="pay-modal" id="pay-modal" aria-labelledby="pay-title">
+  <form class="pay-form" novalidate>
+    <button class="pay-close" type="button" data-pay-close aria-label="Закрыть">×</button>
+    <span class="eyebrow">Оплата на сайте</span>
+    <h3 id="pay-title">Практикум «Пет-проект → микро-SaaS»</h3>
+    <p class="pay-sum"><b data-pay-price>45 105 ₽</b> <s>48 500 ₽</s> <span class="pay-off">−7%</span></p>
+    <label>Имя<input name="name" autocomplete="name" required maxlength="100"></label>
+    <label>Почта<input name="email" type="email" autocomplete="email" required placeholder="name@mail.ru"></label>
+    <label>Ник в Telegram<input name="tg" required placeholder="@nickname" autocapitalize="off" spellcheck="false"></label>
+    <input class="pay-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <label class="pay-consent"><input type="checkbox" name="consent" required> <span>Принимаю <a href="/oferta/" target="_blank">оферту</a> и даю согласие на обработку персональных данных по <a href="/privacy/" target="_blank">политике</a></span></label>
+    <p class="pay-error" role="alert" hidden></p>
+    <button class="btn primary" type="submit" data-pay-submit>Перейти к оплате</button>
+    <p class="small muted">Картой, через СБП или SberPay на защищённой странице ЮKassa. Чек придёт на почту.</p>
+  </form>
+</dialog>
 
 <section class="section">
   <div class="container" style="max-width:820px">

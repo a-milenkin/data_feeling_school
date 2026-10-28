@@ -210,10 +210,10 @@ def build():
             "description": html.escape(meta.get("description", "")),
             "url": url, "image": meta.get("image", DEFAULT_IMAGE),
             "og_type": meta.get("og_type", "website"),
-            "head_extra": meta.get("head_extra", ""),
+            "head_extra": meta.get("head_extra", "") + ('<meta name="robots" content="noindex">' if meta.get("noindex") else ""),
             "header": header, "footer": footer, "content": render_related(body),
         }
-        return track(fill(layout, ctx), path, meta.get("tg_context") or course_question(path))
+        return track(fill(layout, ctx), path, meta.get("tg_context") or course_question(path), meta.get("tg_message"))
 
     def course_question(path):
         """Стартовое сообщение в личку со страницы курса."""
@@ -231,7 +231,8 @@ def build():
             continue
         else:
             write(path, page(meta, body, path))
-        urls.append((path, meta.get("lastmod", date.today().isoformat())))
+        if not meta.get("noindex"):
+            urls.append((path, meta.get("lastmod", date.today().isoformat())))
 
     # страницы курсов из src/courses/*.json
     for c in COURSES.values():

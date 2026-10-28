@@ -192,6 +192,37 @@ details.past .ticks b{color:var(--ink)}
 .price-box{background:#fff;color:var(--ink);border-radius:24px;padding:30px;text-align:center}
 .price-box .btn{width:100%}
 
+/* оплата на сайте (ЮKassa) */
+.pay-btn{margin-top:10px}
+.pay-btn[hidden]{display:none}
+.pay-off{display:inline-block;background:#16a34a;color:#fff;border-radius:999px;padding:2px 9px;font-size:13px;font-weight:800}
+.pay-modal{border:0;border-radius:28px;padding:0;width:min(460px,calc(100% - 32px));max-height:calc(100% - 32px);color:var(--ink);box-shadow:0 30px 80px rgba(20,18,31,.35)}
+.pay-modal::backdrop{background:rgba(20,18,31,.55);backdrop-filter:blur(4px)}
+.pay-form{position:relative;padding:34px 30px 26px;display:grid;gap:14px}
+.pay-form h3{margin:0;font-size:24px;line-height:1.25}
+.pay-form .eyebrow{margin:0}
+.pay-sum{margin:0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pay-sum b{font-size:30px;letter-spacing:-.02em}
+.pay-sum s{color:var(--muted)}
+.pay-form label{display:grid;gap:6px;font-size:14px;font-weight:600}
+.pay-form input:not([type=checkbox]){font:inherit;font-weight:400;padding:13px 16px;border:1.5px solid var(--line);border-radius:14px;outline:none;background:#fff}
+.pay-form input:focus{border-color:var(--accent)}
+.pay-form .pay-consent{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--muted)}
+.pay-consent input{margin-top:4px;accent-color:var(--accent);flex:none}
+.pay-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.pay-error{margin:0;color:#dc2626;font-size:15px;font-weight:600}
+.pay-form .btn{width:100%}
+.pay-form .btn:disabled{opacity:.6;cursor:wait}
+.pay-form .small{margin:0;text-align:center}
+.pay-close{position:absolute;top:14px;right:16px;border:0;background:var(--soft);width:36px;height:36px;border-radius:50%;font-size:22px;line-height:1;cursor:pointer;color:var(--ink)}
+.pay-status{max-width:640px;margin:0 auto;text-align:center;padding:80px 20px}
+.pay-status .icon{font-size:56px;line-height:1;margin-bottom:12px}
+.pay-status [hidden]{display:none}
+.legal{max-width:820px;margin:0 auto;padding:56px 20px 60px}
+.legal h1{font-size:clamp(28px,4vw,40px)}
+.legal h2{font-size:20px;margin-top:32px}
+.legal p,.legal li{color:#2f2c40}
+
 /* отзывы */
 .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
 .shot{margin:0;background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px}
