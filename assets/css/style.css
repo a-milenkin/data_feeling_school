@@ -260,6 +260,9 @@ details.past .ticks b{color:var(--ink)}
 .shot img{border-radius:12px;width:100%}
 .shot figcaption{font-size:14px;color:var(--muted);padding:12px 6px 4px}
 .case{display:flex;flex-direction:column;gap:6px}
+.case-shot{margin:auto 0 0;padding-top:12px}
+.case-shot img{display:block;width:100%;border-radius:14px;box-shadow:0 8px 24px rgba(20,18,31,.18)}
+.case-shot figcaption{font-size:13px;color:var(--muted);margin-top:8px}
 .case .big{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .disclaimer{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:14px;margin-top:28px}
 
@@ -391,7 +394,9 @@ details p{color:var(--muted);padding-bottom:6px}
 .mq-title span{display:block;font-size:15px;font-weight:500;color:var(--muted);margin-top:2px}
 .marquee{overflow:hidden;padding:18px 0 6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
 .mq-track{display:flex;width:max-content;animation:mq calc(var(--n) * 5s) linear infinite}
-.marquee.mrr .mq-track{animation-duration:calc(var(--n) * 7s)}
+.marquee.mrr .mq-track{animation-duration:calc(var(--n) * 7s);animation-direction:reverse}
+/* в ленте MRR пока 3 скриншота: узкое окно на ~3,5 карточки и густой туман по краям, едет в обратную сторону */
+.marquee.mrr{max-width:1040px;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}
 .marquee:hover .mq-track{animation-play-state:paused}
 .mq-half{display:flex;gap:16px;padding-right:16px}
 @keyframes mq{to{transform:translateX(-50%)}}
