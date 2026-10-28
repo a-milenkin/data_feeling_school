@@ -443,3 +443,24 @@ details p{color:var(--muted);padding-bottom:6px}
   .mq-track{animation:none}
   .marquee{overflow-x:auto}
 }
+
+/* пасхалка: кот Алерона и игра 2048 */
+.mentor.cat{position:relative;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.mentor.cat:hover,.mentor.cat:focus-visible{transform:translateY(-4px) rotate(-1deg);box-shadow:0 14px 34px rgba(109,74,255,.22);outline:none}
+.cat-hint{position:absolute;top:12px;left:50%;transform:translate(-50%,-4px);background:var(--accent);color:#fff;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap;opacity:0;transition:.2s;pointer-events:none}
+.mentor.cat:hover .cat-hint,.mentor.cat:focus-visible .cat-hint{opacity:1;transform:translate(-50%,0)}
+@media (hover:none){.cat-hint{opacity:1;transform:translate(-50%,0)}}
+.g2048{border:0;border-radius:26px;padding:22px;width:min(420px,calc(100% - 24px));color:var(--ink);box-shadow:0 30px 80px rgba(20,18,31,.35)}
+.g2048::backdrop{background:rgba(20,18,31,.55);backdrop-filter:blur(4px)}
+.g-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:18px}
+.g-head .pay-close{position:static}
+.g-bar{display:flex;gap:14px;align-items:center;margin-bottom:12px;font-size:14px;color:var(--muted)}
+.g-bar b{color:var(--ink)}
+.g-bar .btn{margin-left:auto}
+.g-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:#ddd6f3;padding:8px;border-radius:16px;touch-action:none;user-select:none}
+.g-cell{aspect-ratio:1;border-radius:10px;background:rgba(255,255,255,.55);display:grid;place-items:center;font-weight:800;font-size:clamp(18px,6vw,28px);color:var(--ink)}
+.g-cell.t2{background:#f4f0ff}.g-cell.t4{background:#e7dfff}.g-cell.t8{background:#cbb9ff}.g-cell.t16{background:#b29cff;color:#fff}
+.g-cell.t32{background:#9a7dff;color:#fff}.g-cell.t64{background:#8360ff;color:#fff}.g-cell.t128{background:#6d4aff;color:#fff;font-size:clamp(16px,5vw,24px)}
+.g-cell.t256{background:#5a36e8;color:#fff;font-size:clamp(16px,5vw,24px)}.g-cell.t512{background:#f97316;color:#fff;font-size:clamp(16px,5vw,24px)}
+.g-cell.t1024{background:#ea580c;color:#fff;font-size:clamp(14px,4vw,20px)}.g-cell.t2048,.g-cell.t4096{background:#16a34a;color:#fff;font-size:clamp(14px,4vw,20px)}
+.g-msg{margin:12px 0 0;text-align:center;font-weight:700}

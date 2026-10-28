@@ -151,6 +151,87 @@
     });
   }
 
+  // пасхалка: клик по коту Алерона открывает классическую 2048
+  var g2048 = document.getElementById('g2048');
+  if (g2048) {
+    var board = g2048.querySelector('[data-g-board]');
+    var scoreEl = g2048.querySelector('[data-g-score]');
+    var bestEl = g2048.querySelector('[data-g-best]');
+    var msg = g2048.querySelector('[data-g-msg]');
+    var grid, score, won;
+    var best = 0;
+    try { best = +localStorage.getItem('g2048best') || 0; } catch (e) {}
+    var LINES = { // индексы клеток в порядке сдвига для каждого направления
+      left: [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15]],
+      up: [[0, 4, 8, 12], [1, 5, 9, 13], [2, 6, 10, 14], [3, 7, 11, 15]]
+    };
+    LINES.right = LINES.left.map(function (l) { return l.slice().reverse(); });
+    LINES.down = LINES.up.map(function (l) { return l.slice().reverse(); });
+    var addTile = function () {
+      var empty = [];
+      grid.forEach(function (v, i) { if (!v) empty.push(i); });
+      if (empty.length) grid[empty[Math.floor(Math.random() * empty.length)]] = Math.random() < 0.9 ? 2 : 4;
+    };
+    var canMove = function () {
+      if (grid.indexOf(0) !== -1) return true;
+      return LINES.left.concat(LINES.up).some(function (l) {
+        return l.some(function (idx, k) { return k < 3 && grid[idx] === grid[l[k + 1]]; });
+      });
+    };
+    var render = function () {
+      board.innerHTML = grid.map(function (v) {
+        return '<div class="g-cell' + (v ? ' t' + Math.min(v, 4096) : '') + '">' + (v || '') + '</div>';
+      }).join('');
+      scoreEl.textContent = score;
+      if (score > best) { best = score; try { localStorage.setItem('g2048best', best); } catch (e) {} }
+      bestEl.textContent = best;
+    };
+    var say = function (text) { msg.textContent = text; msg.hidden = !text; };
+    var newGame = function () {
+      grid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      score = 0; won = false;
+      addTile(); addTile(); say(''); render();
+    };
+    var move = function (dir) {
+      var moved = false;
+      LINES[dir].forEach(function (l) {
+        var vals = l.map(function (i) { return grid[i]; }).filter(Boolean);
+        var out = [];
+        for (var k = 0; k < vals.length; k++) {
+          if (vals[k] === vals[k + 1]) { out.push(vals[k] * 2); score += vals[k] * 2; k++; } else out.push(vals[k]);
+        }
+        l.forEach(function (i, k) {
+          var v = out[k] || 0;
+          if (grid[i] !== v) moved = true;
+          grid[i] = v;
+        });
+      });
+      if (!moved) return;
+      addTile(); render();
+      if (!won && grid.indexOf(2048) !== -1) { won = true; say('🎉 2048! Кот одобряет. Можно продолжать.'); }
+      else if (!canMove()) say('Ходов нет. Кот вздыхает. Жми «Заново».');
+    };
+    document.querySelectorAll('[data-2048]').forEach(function (el) {
+      var open = function () { if (!grid) newGame(); g2048.showModal(); };
+      el.addEventListener('click', open);
+      el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
+    g2048.querySelector('[data-g-close]').addEventListener('click', function () { g2048.close(); });
+    g2048.querySelector('[data-g-new]').addEventListener('click', newGame);
+    g2048.addEventListener('click', function (e) { if (e.target === g2048) g2048.close(); });
+    var KEYS = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' };
+    document.addEventListener('keydown', function (e) {
+      if (g2048.open && KEYS[e.key]) { e.preventDefault(); move(KEYS[e.key]); }
+    });
+    var tx, ty;
+    board.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+    board.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+      move(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'));
+    });
+  }
+
   // страница после оплаты: ждём подтверждения от ЮKassa
   var box = document.querySelector('[data-pay-status]');
   if (box) {
