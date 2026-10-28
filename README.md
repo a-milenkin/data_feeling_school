@@ -100,6 +100,6 @@ source: https://t.me/datafeeling/1994   # необязательно: пост-�
 Заказы сохраняются в `~/testdraft.store/dfs_data/orders/`, chat_id для уведомлений — в `~/testdraft.store/dfs_data/tg_chat_id`, ошибки — в `~/testdraft.store/dfs_pay_errors.log`.
 Проверка настройки на сервере: `php8.4 ~/dfs_src/tools/pay_check.php` (ключ ЮKassa, чат с ботом, тестовое сообщение).
 
-Кнопка «Оплатить на сайте» скрыта (`hidden` в `src/pages/pet-project.html`), пока не убрать атрибут.
+Чтобы временно скрыть кнопку «Оплатить на сайте», добавьте атрибут `hidden` в `src/pages/pet-project.html`.
 Тестовая оплата 1 ₽: `https://datafeelingschool.ru/pet-project/?pay_test=<test_code>#price`.
 В кабинете ЮKassa: Интеграция → HTTP-уведомления → `https://datafeelingschool.ru/pay/webhook.php`, событие `payment.succeeded`.
