@@ -128,6 +128,16 @@ p{margin:0 0 1em}
 .price-card.single .btn{margin-top:20px}
 .dark-steps .step{background:#1f1c33;border-color:#2f2c47}
 .dark-steps .step p{color:#c9c6dc}
+/* 9-й шаг: бонус-акселератор, крупная градиентная карточка справа на два ряда */
+.steps.with-bonus{grid-template-columns:repeat(4,1fr) 1.5fr}
+.step.bonus{grid-column:5;grid-row:1 / span 2;display:flex;flex-direction:column;gap:10px;background:linear-gradient(150deg,#6d4aff 0%,#a855f7 55%,#f97316 120%);border:0;color:#fff;box-shadow:0 18px 50px rgba(109,74,255,.45)}
+.dark-steps .step.bonus p{color:rgba(255,255,255,.92)}
+.step.bonus::before{background:#fff;color:var(--accent-d);margin-bottom:4px}
+.step.bonus h3{font-size:22px;line-height:1.2;margin:0}
+.bonus-tag{align-self:flex-start;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.bonus-fact{margin-top:auto;background:rgba(20,18,31,.28);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.4}
+.bonus-fact b{display:block;font-size:22px}
+.dark-steps .step.bonus .bonus-note{font-size:13px;color:rgba(255,255,255,.75)}
 
 /* проекты основателя */
 .project-hero{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center;background:var(--ink);color:#fff;border-radius:32px;padding:44px;overflow:hidden}
@@ -332,7 +342,8 @@ details p{color:var(--muted);padding-bottom:6px}
   .project-hero{grid-template-columns:1fr;padding:30px 22px}
   .hero .grid,.price-card,.grid-2{grid-template-columns:1fr}
   .grid-3,.post-grid,.shots{grid-template-columns:repeat(2,1fr)}
-  .grid-4,.steps,.stats{grid-template-columns:repeat(2,1fr)}
+  .grid-4,.steps,.stats,.steps.with-bonus{grid-template-columns:repeat(2,1fr)}
+  .step.bonus{grid-column:1 / -1;grid-row:auto}
   .site-footer .cols{grid-template-columns:1fr 1fr}
   .hero-photo{max-width:520px}
 }
@@ -351,11 +362,48 @@ details p{color:var(--muted);padding-bottom:6px}
   .nav{position:absolute;top:70px;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;padding:12px 20px 24px;gap:4px;border-bottom:1px solid var(--line);display:none}
   .nav.open{display:flex}
   .nav a{padding:12px 0;font-size:17px}
-  .grid-3,.post-grid,.shots,.grid-4,.steps,.stats{grid-template-columns:1fr}
+  .grid-3,.post-grid,.shots,.grid-4,.steps,.stats,.steps.with-bonus{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr 1fr}
   .two-col{columns:1}
   .price-card,.cta{padding:30px 22px}
   .course-box{grid-template-columns:1fr}
   .site-footer .cols{grid-template-columns:1fr}
   .btn{width:100%}.btn-row .btn{width:100%}.nav .btn{width:auto}
+}
+
+/* схема запуска (Дрейк) */
+.drake{margin:32px auto 0;max-width:980px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:12px 12px 16px}
+.drake img{display:block;width:100%;height:auto;border-radius:14px}
+.drake figcaption{text-align:center;color:var(--muted);font-size:15px;margin-top:10px}
+
+/* кураторы */
+.mentor{text-align:center}
+.mentor .ava{display:block;width:120px;height:120px;border-radius:50%;overflow:hidden;margin:0 auto 14px;box-shadow:0 0 0 4px var(--accent-soft)}
+.mentor .ava img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.28)} /* срезаем фон Telegram по краям кружка */
+.mentor h3{margin-bottom:2px}
+.mentor p{margin:0 0 14px}
+.mentor .big{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--accent);line-height:1.1}
+
+/* бегущие ленты скриншотов студентов */
+.mq-title{margin:44px 0 0;font-size:22px}
+.mq-title span{display:block;font-size:15px;font-weight:500;color:var(--muted);margin-top:2px}
+.marquee{overflow:hidden;padding:18px 0 6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.mq-track{display:flex;width:max-content;animation:mq calc(var(--n) * 5s) linear infinite}
+.marquee.mrr .mq-track{animation-duration:calc(var(--n) * 7s)}
+.marquee:hover .mq-track{animation-play-state:paused}
+.mq-half{display:flex;gap:16px;padding-right:16px}
+@keyframes mq{to{transform:translateX(-50%)}}
+.mq-item{margin:0;position:relative;flex:none;border-radius:18px;overflow:hidden;background:#14121f;box-shadow:0 10px 30px rgba(20,18,31,.18)}
+.mq-item img{display:block;height:360px;width:auto}
+.mq-item.mrr img{height:320px}
+.mq-item.first::before{content:"";position:absolute;inset:0 0 auto 0;height:12%;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);background:rgba(20,18,31,.2)}
+.mq-item figcaption{position:absolute;left:12px;bottom:12px;background:#16a34a;color:#fff;font-weight:800;font-size:15px;padding:6px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+@media (max-width:720px){
+  .mq-item img{height:280px}
+  .mq-item.mrr img{height:240px}
+  .mq-title{font-size:19px;margin-top:36px}
+}
+@media (prefers-reduced-motion:reduce){
+  .mq-track{animation:none}
+  .marquee{overflow-x:auto}
 }

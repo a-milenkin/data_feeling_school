@@ -192,7 +192,25 @@ def build():
     posts = load_posts()
     urls = []
 
+    # бегущие ленты скриншотов студентов: assets/img/results/<вид>-N.jpg → {{marquee:вид}}
+    MARQUEE_CAPTIONS = {"mrr": [">500 тыс. ₽ в месяц", ">600 тыс. ₽ в месяц", ">800 тыс. ₽ в месяц"]}
+    MARQUEE_ALT = {"first": "Скриншот: студент получил первую оплату", "mrr": "Скриншот: выручка проекта студента"}
+
+    def marquee(kind):
+        files = sorted((ROOT / "assets/img/results").glob(f"{kind}-*.jpg"), key=lambda f: int(f.stem.split("-")[1]))
+        caps = MARQUEE_CAPTIONS.get(kind, [])
+        items = "".join(
+            f'<figure class="mq-item {kind}"><img src="/assets/img/results/{f.name}" alt="{MARQUEE_ALT.get(kind, "")}" loading="lazy">'
+            + (f"<figcaption>{caps[i]}</figcaption>" if i < len(caps) else "") + "</figure>"
+            for i, f in enumerate(files))
+        # дорожка = набор, повторённый до ~10 карточек, и его копия для бесшовной прокрутки на -50%
+        reps = max(1, -(-10 // max(len(files), 1)))
+        half = items * reps
+        return (f'<div class="marquee {kind}" style="--n:{len(files) * reps}"><div class="mq-track">'
+                f'<div class="mq-half">{half}</div><div class="mq-half" aria-hidden="true">{half}</div></div></div>')
+
     def render_related(body):
+        body = re.sub(r"\{\{marquee:(\w+)\}\}", lambda m: marquee(m.group(1)), body)
         def repl(m):
             course, limit = m.group(1), int(m.group(2) or 3)
             sel = [p for p in posts if p["course"] == course][:limit]
