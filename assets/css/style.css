@@ -136,6 +136,7 @@ p{margin:0 0 1em}
 .ph-stats{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .ph-stats li{background:#1f1c33;border:1px solid #2f2c47;border-radius:16px;padding:14px;font-size:13px;color:#c9c6dc;line-height:1.35}
 .ph-stats b{display:block;font-size:24px;color:#ff9f43;letter-spacing:-.02em;margin-bottom:2px}
+.ph-note{margin:16px 0 0;color:#ffd27a;font-weight:700}
 .project-hero .btn.ghost{border-color:#fff;color:#fff}
 .project-hero .btn.ghost:hover{background:#fff;color:var(--ink)}
 .ph-shot{display:block;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);transform:rotate(1.5deg);transition:.25s}
