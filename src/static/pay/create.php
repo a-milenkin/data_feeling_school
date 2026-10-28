@@ -17,7 +17,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) json_out(['error' => 'Прове
 if (!preg_match('/^[A-Za-z0-9_]{4,32}$/', $tg)) json_out(['error' => 'Укажите ник в Telegram, например @nickname'], 400);
 if (empty($in['consent'])) json_out(['error' => 'Нужно согласие с офертой и политикой'], 400);
 
-// тестовый режим: секретный код из ~/dfs_secrets.php → цена 1 ₽
+// тестовый режим: секретный код из ~/testdraft.store/dfs_secrets.php → цена 1 ₽
 $test = cfg('test_code') && hash_equals((string) cfg('test_code'), (string) ($in['test'] ?? ''));
 $stream = stream_info();
 $amount = ['value' => number_format($test ? 1 : $stream['price'], 2, '.', ''), 'currency' => 'RUB'];
@@ -29,7 +29,7 @@ $id = bin2hex(random_bytes(8));
     'confirmation' => ['type' => 'redirect', 'return_url' => SITE_URL . '/pay/success/?order=' . $id],
     'description' => PRODUCT_TITLE,
     'metadata' => ['order_id' => $id, 'tg' => $tg, 'stream' => $stream['number']],
-] + (cfg('receipt') ? [ // чек 54-ФЗ — только если в ЮKassa включены чеки ('receipt' => true в ~/dfs_secrets.php)
+] + (cfg('receipt') ? [ // чек 54-ФЗ — только если в ЮKassa включены чеки ('receipt' => true в ~/testdraft.store/dfs_secrets.php)
     'receipt' => [
         'customer' => ['email' => $email, 'full_name' => $name],
         'items' => [[

@@ -84,7 +84,7 @@ source: https://t.me/datafeeling/1994   # необязательно: пост-�
 - После оплаты покупатель видит кнопку в личку @Aleron_df с текстом «Привет, я оплатил практикум по пет-проектам и хочу начать».
 - Код: `src/static/pay/*.php`; цена и название — константы в `lib.php`.
 
-Секреты в git **не хранятся**. Они лежат на сервере в `~/dfs_secrets.php` (вне папки сайта):
+Секреты в git **не хранятся**. Они лежат на сервере в `~/testdraft.store/dfs_secrets.php`: над `public_html`, из интернета не видно. В домашнюю папку класть нельзя: PHP сайта на Beget работает от другого пользователя и видит только папку сайта.
 
 ```php
 <?php return [
@@ -97,7 +97,7 @@ source: https://t.me/datafeeling/1994   # необязательно: пост-�
 ];
 ```
 
-Заказы сохраняются в `~/dfs_data/orders/`, chat_id для уведомлений — в `~/dfs_data/tg_chat_id`.
+Заказы сохраняются в `~/testdraft.store/dfs_data/orders/`, chat_id для уведомлений — в `~/testdraft.store/dfs_data/tg_chat_id`, ошибки — в `~/testdraft.store/dfs_pay_errors.log`.
 Проверка настройки на сервере: `php8.4 ~/dfs_src/tools/pay_check.php` (ключ ЮKassa, чат с ботом, тестовое сообщение).
 
 Кнопка «Оплатить на сайте» скрыта (`hidden` в `src/pages/pet-project.html`), пока не убрать атрибут.

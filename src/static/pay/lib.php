@@ -1,12 +1,13 @@
 <?php
 // Оплата практикума на сайте через ЮKassa + уведомление в Telegram.
-// Секреты лежат на сервере в ~/dfs_secrets.php (вне папки сайта, в git не попадают),
-// заказы — в ~/dfs_data/orders/. Как настроить — README, раздел «Оплата на сайте».
+// Секреты лежат на сервере в ~/testdraft.store/dfs_secrets.php (над public_html: из интернета не видно, в git не попадает),
+// заказы — в ~/testdraft.store/dfs_data/orders/. Домашняя папка не подходит: PHP сайта на Beget работает
+// от другого системного пользователя и видит только папку сайта. Как настроить — README, раздел «Оплата на сайте».
 if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'] ?? '')) { http_response_code(404); exit; }
 
-if (!defined('DFS_HOME')) define('DFS_HOME', dirname(__DIR__, 3)); // ~/testdraft.store/public_html/pay → ~
+if (!defined('DFS_HOME')) define('DFS_HOME', dirname(__DIR__, 2)); // ~/testdraft.store/public_html/pay → ~/testdraft.store
 define('DFS_DATA', DFS_HOME . '/dfs_data');
-// ошибки оплаты пишем сами в ~/dfs_pay_errors.log (вне папки сайта): путь error_log на Beget не переопределяется
+// ошибки оплаты пишем сами в dfs_pay_errors.log рядом с секретами: путь error_log на Beget не переопределяется
 function pay_log($msg) {
     @file_put_contents(DFS_HOME . '/dfs_pay_errors.log', date('c') . ' ' . $msg . PHP_EOL, FILE_APPEND);
 }
