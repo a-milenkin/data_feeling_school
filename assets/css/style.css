@@ -136,7 +136,7 @@ p{margin:0 0 1em}
 .dark-steps .step.bonus p{color:rgba(255,255,255,.92)}
 .step.bonus::before{background:#fff;color:var(--accent-d);margin-bottom:4px}
 .step.bonus h3{font-size:22px;line-height:1.2;margin:0}
-.bonus-tag{align-self:flex-start;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.bonus-tag{align-self:flex-start;background:rgba(255,255,255,.18);border-radius:8px;padding:5px 10px;font-size:11px;line-height:1.3;font-weight:700;letter-spacing:.04em;text-transform:uppercase;max-width:100%} /* в узкой колонке переносится на 2 строки — поэтому не «таблетка» */
 .bonus-fact{margin-top:auto;background:rgba(20,18,31,.28);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.4}
 .bonus-fact b{display:block;font-size:22px}
 .dark-steps .step.bonus .bonus-note{font-size:13px;color:rgba(255,255,255,.75)}
@@ -199,17 +199,19 @@ details.past .ticks b{color:var(--ink)}
 /* цена */
 .price-card{background:var(--ink);color:#fff;border-radius:32px;padding:44px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
 .price-card .ticks li{color:#e4e1f5}
+.price-card>*{min-width:0} /* иначе расписание потоков распирает колонку на телефоне */
 .price{font-size:clamp(44px,6vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1}
 .price small{font-size:18px;color:#a8a4c4;font-weight:600;letter-spacing:0}
 .price-box{background:#fff;color:var(--ink);border-radius:24px;padding:30px;text-align:center}
 .price-box .btn{width:100%}
 
 /* оплата на сайте (ЮKassa) */
-.split-btn{position:relative;gap:10px}
+.split-btn{position:relative;gap:4px 10px;flex-wrap:wrap}
 .stepik-tag{background:rgba(255,255,255,.2);border-radius:999px;padding:3px 9px;font-size:12px;font-weight:700}
 /* подсказка: оплата частями проходит на странице Stepik */
 .split-btn::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 12px);transform:translate(-50%,6px);width:min(300px,80vw);background:var(--ink);color:#fff;font-size:13px;font-weight:500;line-height:1.45;text-align:left;padding:10px 14px;border-radius:12px;box-shadow:0 10px 30px rgba(20,18,31,.3);opacity:0;pointer-events:none;transition:.18s;z-index:5}
 .split-btn:hover::after,.split-btn:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+@media (hover:none){.split-btn::after{display:none}} /* на телефоне подсказка дублируется текстом под ценой */
 .pay-btn{margin-top:10px;padding-left:18px;padding-right:18px;font-size:15px}
 .pay-btn[hidden]{display:none}
 .pay-off{display:inline-block;background:#16a34a;color:#fff;border-radius:999px;padding:2px 9px;font-size:13px;font-weight:800}
@@ -437,6 +439,10 @@ details p{color:var(--muted);padding-bottom:6px}
   .mq-item.mrr img{height:240px}
   .mq-title{font-size:19px;margin-top:36px}
   .mentors .mentor .big{font-size:28px}
+  .st-schedule ol{grid-template-columns:1fr}
+  .price-box{padding:24px 18px}
+  .price-box .btn{padding-left:16px;padding-right:16px}
+  .st-clock b{font-size:24px}
   .mentors .mentor .big.secret,.mentors .mentor .big.word{font-size:24px}
   .mentors .mentor h3,.mentors .mentor p,.mentors .mentor .small{min-height:0}
 }
@@ -469,3 +475,11 @@ details p{color:var(--muted);padding-bottom:6px}
 .g-win{margin-top:14px;background:var(--accent-soft);border-radius:16px;padding:14px 16px;text-align:center}
 .g-win p{margin:0 0 12px}
 .g-win .btn{width:100%}
+
+/* очень узкие телефоны (320–360 px): длинные слова в заголовках не должны распирать экран */
+.hero .grid>*{min-width:0}
+h1{overflow-wrap:break-word}
+@media (max-width:360px){
+  h1,.h1-course{font-size:25px}
+  .container{padding-left:14px;padding-right:14px}
+}
