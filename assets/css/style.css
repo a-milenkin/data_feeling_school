@@ -247,6 +247,7 @@ details.past .ticks b{color:var(--ink)}
 .stream-timer.dark .st-clock b{color:#fff}
 .st-clock span{font-size:12px;color:var(--muted)}
 .stream-timer.dark .st-clock span{color:#a8a4c4}
+.stream-note{margin:14px 0 0;font-size:15px;font-weight:600;color:var(--ink)}
 .st-deal{margin:12px 0 0;font-size:14px;font-weight:700;color:#16a34a}
 .st-schedule{margin:14px 0 0;color:#e4e1f5;max-width:460px;background:none;border:0;border-radius:0;padding:0}
 .st-schedule summary{font-size:14px;font-weight:600;color:#b9a7ff;padding:6px 0;display:inline-block}

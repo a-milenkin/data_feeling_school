@@ -72,6 +72,10 @@
     setAll('[data-stream-tag]', function (el) { el.textContent = 'Поток №' + st.number + ' · старт ' + st.day; });
     setAll('[data-stream-name]', function (el) { el.textContent = 'потока №' + st.number; });
     setAll('[data-stream-date]', function (el) { el.textContent = st.day; });
+    // под таймером: в декабре — «последний поток года», в остальные месяцы — про ограниченные места
+    setAll('[data-stream-note]', function (el) {
+      if (new Date(st.start + MSK).getUTCMonth() === 11) el.textContent = '🔥 Последний поток в ' + st.year + ' году';
+    });
     setAll('[data-site-price]', function (el) { el.textContent = rub(Math.round(STEPIK_PRICE * (100 - off) / 100)); });
     setAll('[data-site-off]', function (el) { el.textContent = '−' + off + '%'; });
     setAll('[data-bonus-date]', function (el) { // последний день бонуса по Москве
