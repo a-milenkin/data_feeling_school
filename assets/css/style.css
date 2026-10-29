@@ -462,7 +462,7 @@ details p{color:var(--muted);padding-bottom:6px}
 @keyframes cat-wiggle{0%,80%,100%{transform:rotate(12deg)}85%{transform:rotate(4deg) scale(1.06)}90%{transform:rotate(18deg) scale(1.06)}95%{transform:rotate(8deg)}}
 .mentor.cat:hover .cat-hint{animation:none;transform:rotate(6deg) scale(1.1)}
 @media (prefers-reduced-motion:reduce){.cat-hint{animation:none}}
-.g2048{border:0;border-radius:26px;padding:22px;width:min(420px,calc(100% - 24px));color:var(--ink);box-shadow:0 30px 80px rgba(20,18,31,.35)}
+.g2048{border:0;border-radius:26px;padding:22px;max-height:calc(100dvh - 24px);overflow:auto;width:min(420px,calc(100% - 24px));color:var(--ink);box-shadow:0 30px 80px rgba(20,18,31,.35)}
 .g2048::backdrop{background:rgba(20,18,31,.55);backdrop-filter:blur(4px)}
 .g-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:18px}
 .g-head .pay-close{position:static}

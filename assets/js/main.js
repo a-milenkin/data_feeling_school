@@ -171,8 +171,9 @@
     var win = g2048.querySelector('[data-g-win]');
     // ссылка в личку с готовым текстом (собираем в JS: tracking.py переписывает только ссылки из HTML)
     g2048.querySelector('[data-g-claim]').href = 'https://t.me/Aleron_df?text=' +
-      encodeURIComponent('Привет! Я выиграл 2048 на сайте datafeelingschool.ru, дай мне скидку 🎉');
+      encodeURIComponent('Привет! Я собрал 256 в игре 2048 на сайте datafeelingschool.ru — хочу особые условия на практикум 🏆');
     var grid, score, won;
+    var PRIZE_TILE = 256; // плитка, за которую даём особые условия
     var best = 0;
     try { best = +localStorage.getItem('g2048best') || 0; } catch (e) {}
     var LINES = { // индексы клеток в порядке сдвига для каждого направления
@@ -222,7 +223,7 @@
       });
       if (!moved) return;
       addTile(); render();
-      if (!won && grid.indexOf(2048) !== -1) { won = true; say(''); win.hidden = false; }
+      if (!won && grid.some(function (v) { return v >= PRIZE_TILE; })) { won = true; say(''); win.hidden = false; win.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
       else if (!canMove()) say('Ходов нет. Кот вздыхает. Жми «Заново».');
     };
     document.querySelectorAll('[data-2048]').forEach(function (el) {
