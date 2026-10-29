@@ -2,6 +2,8 @@
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
 Options -Indexes
+AddType application/manifest+json .webmanifest
+AddType image/x-icon .ico
 
 # https и без www
 RewriteEngine On
