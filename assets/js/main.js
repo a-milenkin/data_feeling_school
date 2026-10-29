@@ -223,7 +223,7 @@
       });
       if (!moved) return;
       addTile(); render();
-      if (!won && grid.some(function (v) { return v >= PRIZE_TILE; })) { won = true; say(''); win.hidden = false; win.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+      if (!won && grid.some(function (v) { return v >= PRIZE_TILE; })) { won = true; say(''); win.hidden = false; g2048.scrollTop = g2048.scrollHeight; /* на узком экране кнопка приза ниже поля */ }
       else if (!canMove()) say('Ходов нет. Кот вздыхает. Жми «Заново».');
     };
     document.querySelectorAll('[data-2048]').forEach(function (el) {
