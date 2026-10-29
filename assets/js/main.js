@@ -72,6 +72,12 @@
     setAll('[data-stream-tag]', function (el) { el.textContent = 'Поток №' + st.number + ' · старт ' + st.day; });
     setAll('[data-stream-name]', function (el) { el.textContent = 'потока №' + st.number; });
     setAll('[data-stream-date]', function (el) { el.textContent = st.day; });
+    setAll('[data-stream-number]', function (el) { el.textContent = st.number; });
+    // бронь места: личка Алерона с номером потока (tracking.py подставляет общий текст, здесь — точный)
+    setAll('[data-book]', function (el) {
+      el.href = 'https://t.me/Aleron_df?text=' + encodeURIComponent('Привет! Хочу забронировать место в потоке №' + st.number +
+        ' практикума по пет-проектам (старт ' + st.day + '). Есть пара вопросов — подойдёт ли курс под мою ситуацию?');
+    });
     // под таймером: в декабре — «последний поток года», в остальные месяцы — про ограниченные места
     setAll('[data-stream-note]', function (el) {
       if (new Date(st.start + MSK).getUTCMonth() === 11) el.textContent = '🔥 Последний поток в ' + st.year + ' году';
